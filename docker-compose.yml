@@ -1,0 +1,29 @@
+services:
+  api:
+    build: .
+    env_file: .env
+    ports: ["8000:8000"]
+    volumes:
+      - ./data:/srv/data
+      - chroma:/srv/chroma_db
+
+  ingest:
+    build: .
+    env_file: .env
+    command: python -m app.ingest
+    volumes:
+      - ./data:/srv/data
+      - chroma:/srv/chroma_db
+    profiles: [jobs]
+
+  eval:
+    build: .
+    env_file: .env
+    command: python -m eval.run_eval --fail-under 0.80
+    volumes:
+      - ./eval/results:/srv/eval/results
+      - chroma:/srv/chroma_db
+    profiles: [jobs]
+
+volumes:
+  chroma:

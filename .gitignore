@@ -1,0 +1,8 @@
+.venv/
+.env
+chroma_db/
+data/raw/*.pdf
+eval/results/
+__pycache__/
+.pytest_cache/
+.DS_Store
